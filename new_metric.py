@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 
 
 def generate_error_information_curve(distances_matrix_flat, pids_mask_flat, N=5000):
-    args = distances_matrix_flat.argsort()
-    pids_mask_flat = pids_mask_flat[args]
     reverse_pids_mask_flat = np.flip(pids_mask_flat)
     reverse_pids_mask_flat = np.logical_not(reverse_pids_mask_flat)
 
