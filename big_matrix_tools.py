@@ -306,7 +306,10 @@ def generate_confidence_coefficients_matrix(parts_visibility, verbose=False):
     for i in range(len(confidence_matrix)):
         if verbose and i%100==0:
             print(f"{i}/19281 lines done")
-        for j in range(len(confidence_matrix[0])):
-            confidence_matrix[i, j] = (parts_visibility[i,:8]*parts_visibility[j,:8]).sum()/8.
+
+        part_visibility_inter = parts_visibility[:,1:] * parts_visibility[i,1:]
+        confidence_matrix[i,:] = part_visibility_inter.sum(axis=1)/8.
+        #for j in range(len(confidence_matrix[0])):
+        #    confidence_matrix[i, j] = (parts_visibility[i,1:]*parts_visibility[j,1:]).sum()/8.
 
     return confidence_matrix
