@@ -263,11 +263,10 @@ class Extracted_features_framework():
         print(len(pids_mask_flat), selection.shape)
 
 
-        distances_matrix_flat = distances_matrix_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
-        confidence_matrix_flat = confidence_matrix_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
-        pids_mask_flat = pids_mask_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
-
-
+        #distances_matrix_flat = distances_matrix_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
+        #confidence_matrix_flat = confidence_matrix_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
+        #pids_mask_flat = pids_mask_flat[np.logical_not(np.logical_and(pids_mask_flat, camids_mask_flat))]
+        print(pids_mask_flat.sum(), len(pids_mask_flat))
         if return_selection:
             return distances_matrix_flat, pids_mask_flat, confidence_matrix_flat, selection
         else:

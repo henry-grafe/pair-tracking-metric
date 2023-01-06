@@ -60,6 +60,7 @@ def generate_distances_list_with_confidence_coefficients(means, stds, max_confid
     """
     Valid distances generation, confidence offsets generations and adding them to the distances list
     """
+    np.random.seed(42)
     distances_valid = np.random.normal(means[0], stds[0], valid_set_size)
 
     confidence_coefficients_valid = np.random.random(len(distances_valid))

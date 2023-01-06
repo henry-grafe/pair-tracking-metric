@@ -40,7 +40,7 @@ def generate_simple_random_selection_tracking(pids, selection_size, N_garbage_id
         counter += 1
         to_be_added_to_selection_indexes = indexes[pids == current_pid_to_be_selected]
         selection_indexes = np.append(selection_indexes, to_be_added_to_selection_indexes)
-        print(len(to_be_added_to_selection_indexes))
+        #print(len(to_be_added_to_selection_indexes))
     #print(selection_indexes, len(selection_indexes), pids_count)
 
     N_garbage_identities = selection_size - len(selection_indexes)
@@ -49,10 +49,14 @@ def generate_simple_random_selection_tracking(pids, selection_size, N_garbage_id
         N_garbage_identities = 0
 
     garbages_identities_indexes = indexes[pids == 0]
+    print(len(garbages_identities_indexes))
+    print(len(unique_pids))
+    print(pids_count[1:].mean())
+
     np.random.shuffle(garbages_identities_indexes)
     selection_indexes = np.append(selection_indexes, garbages_identities_indexes[:N_garbage_identities])
 
-    return selection_indexes
+    return selection_indexes[:selection_size] #crop the selection to "selection_size"
 
 
 
