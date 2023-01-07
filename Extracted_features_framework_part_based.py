@@ -219,6 +219,9 @@ class Extracted_features_framework():
         confidence_matrix = confidence_matrix[selection, :]
         confidence_matrix = confidence_matrix[:, selection]
 
+        plt.imshow(confidence_matrix)
+        plt.show()
+
 
         if verbose:
             print("computing valid identities masks (excluding same identities if they have same camids)...")

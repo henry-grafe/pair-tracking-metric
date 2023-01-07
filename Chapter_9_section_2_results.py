@@ -13,14 +13,14 @@ args = distances_matrix_flat.argsort()
 pids_mask_flat = pids_mask_flat[args]
 distances_matrix_flat = distances_matrix_flat[args]
 confidence_matrix_flat = confidence_matrix_flat[args]
-
+print(f"valid pids = {pids_mask_flat.sum()}, invalid pids = {len(pids_mask_flat) - pids_mask_flat.sum()}, total = {len(pids_mask_flat)}")
 print('generating curve')
 error_rate, n_useful_links, actual_ratio, pids_mask_flat_sorted, ratio = new_metric.generate_error_information_curve(distances_matrix_flat, pids_mask_flat, N=15000)
 print('plotting curve')
 new_metric_plot.plot_error_information_curve_without_show(error_rate, n_useful_links, actual_ratio, pids_mask_flat_sorted, ratio)
 plt.show()
 
-sigma = 0.5
+sigma = 0.3
 confidences = [0.376,0.51,0.626]
 
 for i in range(len(confidences)):
