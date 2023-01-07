@@ -1,23 +1,24 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from Extracted_features_framework_simple import Extracted_features_framework
+from Extracted_features_framework_part_based import Extracted_features_framework
 from big_matrix_tools import compute_distances_matrix_simple, compute_distances_matrix_part_based, generate_pids_camids_equality_mask
 import scipy.special
 import scipy.optimize
 import cv2
 import big_matrix_tools
-
+import os
 
 class Pair_plotting():
     def __init__(self,verbose=False):
-        self.extracted_feature_framework = Extracted_features_framework("D:/Pair-reID_data/resnet50_fc512_features/", ["extracted_features_q.pickle", "extracted_features_g.pickle"],is_distance_matrix_computed=True)
+        self.extracted_feature_framework = Extracted_features_framework("D:/Pair-reID_data/posenet_features/", ["extracted_features_q.pickle", "extracted_features_g.pickle"],is_distances_matrix_computed=True, is_confidence_matrix_computed=True)
 
         if verbose:
             print("loading features...")
         self.features = self.extracted_feature_framework.get_features()
         if verbose:
             print("computing distance and pids list for histogram...")
-        self.distances_matrix_flat_for_hist, self.pids_mask_flat_for_hist, self.selection = self.extracted_feature_framework.get_lists_special_selection(verbose=verbose, return_selection=True)
+        self.distances_matrix_flat_for_hist, self.pids_mask_flat_for_hist, self.confidence_matrix_flat, self.selection = self.extracted_feature_framework.get_lists_and_confidence_special_selection(7000,2000,verbose=verbose, return_selection=True)
+
         if verbose:
             print("computing distances matrix...")
         self.distances_matrix = self.extracted_feature_framework.compute_distances_matrix(verbose=verbose)
@@ -80,6 +81,7 @@ class Pair_plotting():
         plt.subplot(3, 2, 1)
         plt.imshow(img1)
 
+
         img2 = cv2.imread("D:\\Pair-reID_data\\reference_repertory\\" + str(ind2) + ".jpg")
         plt.subplot(3, 2, 2)
         plt.imshow(img2)
@@ -90,10 +92,17 @@ class Pair_plotting():
         corresponding_ind1 = np.argmax(self.selection == ind1)
         corresponding_ind2 = np.argmax(self.selection == ind2)
         print(self.distances_matrix[corresponding_ind1, corresponding_ind2], self.pids_matrix[corresponding_ind1, corresponding_ind2], self.camids_matrix[corresponding_ind1, corresponding_ind2],
-              corresponding_ind1, corresponding_ind2)
-        print(f"pids of the two images : {self.extracted_feature_framework.pids[ind1]} and {self.extracted_feature_framework.pids[ind2]}")
+              ind1, ind2)
+        pid1, pid2 = self.extracted_feature_framework.pids[ind1], self.extracted_feature_framework.pids[ind2]
+        print(f"pids of the two images : {pid1} and {pid2}")
         current_distance = self.distances_matrix[corresponding_ind1, corresponding_ind2]
         plt.plot([current_distance, current_distance], [0, 1], 'r-')
+        dist_short = str(current_distance).split(".")[-1]
+        dir_name = str(pid1)+"_"+str(pid2)+"_"+dist_short
+        os.mkdir("D:\\Pair-reID_data\\images_plot\\"+dir_name)
+        cv2.imwrite("D:\\Pair-reID_data\\images_plot\\"+dir_name+"\\img1.jpg", img1[:,:,[2,1,0]])
+        cv2.imwrite("D:\\Pair-reID_data\\images_plot\\"+dir_name+"\\img2.jpg", img2[:,:,[2,1,0]])
+
         plt.show()
 
 
