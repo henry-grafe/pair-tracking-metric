@@ -28,7 +28,7 @@ print('plotting curve')
 new_metric_plot.plot_error_information_curve_without_show(error_rate, n_useful_links, actual_ratio, pids_mask_flat_sorted, ratio)
 plt.show()
 
-sigma = 0.5
+sigma = 0.99
 
 confidences = [0.1,0.2,0.3]
 print(confidences)
